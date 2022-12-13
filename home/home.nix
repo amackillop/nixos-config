@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./programs/xmonad/default.nix
+  ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -206,10 +209,12 @@
     enable = true;
     # package = pkgs.vscodium;
     extensions = with pkgs.vscode-extensions; [
-      streetsidesoftware.code-spell-checker
       arrterian.nix-env-selector
+      haskell.haskell
       jnoortheen.nix-ide
+      justusadam.language-haskell
       rust-lang.rust-analyzer
+      streetsidesoftware.code-spell-checker
       vadimcn.vscode-lldb
     ];
     userSettings = {
