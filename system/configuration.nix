@@ -130,7 +130,7 @@
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-  # Libratbag for configuring gaming mice.
+  # Ratbag for configuring gaming mice.
   services.ratbagd.enable = true;
 
   # Nix
