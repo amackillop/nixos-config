@@ -1,6 +1,6 @@
 # XFCE desktop environment meant for use with XMonad as a window manager
 
-{ config, pkgs, callPackage, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -13,18 +13,12 @@
     displayManager = {
       lightdm = {
         enable = true;
-        greeter.enable = false;
-      };
-      autoLogin = {
-        enable = true;
-        user = "unknown";
       };
     };
     desktopManager = {
       xterm.enable = false;
       xfce = {
         enable = true;
-        # noDesktop = true;
         enableXfwm = false;
       };
     };

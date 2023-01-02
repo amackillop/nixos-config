@@ -24,14 +24,18 @@
 
   # Packages that will be installed to the user profile
   home.packages = [
-    pkgs.firefox
-    pkgs.gh
-    pkgs.git
-    pkgs.htop
-    pkgs.nvtop
     pkgs.bitwarden
     pkgs.bitwarden-cli
+    pkgs.firefox
+    pkgs.git
+    pkgs.gh
+    pkgs.htop
+    pkgs.nil
+    pkgs.nixpkgs-fmt
+    pkgs.nvtop
     pkgs.okular
+    pkgs.piper
+    pkgs.libratbag
   ];
 
   # This value determines the Home Manager release that your
@@ -47,13 +51,13 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  # Window Manager
-  # xsession.enable = true;
-  # xsession.windowManager.command = "..."
-  # xsession.windowManager.xmonad = {
-  #   enable = true;
-  #   enableContribAndExtras = true;
-  #  };
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Matcha-dark-azul";
+      package = pkgs.matcha-gtk-theme;
+    };
+  };
 
   # Firefox
   programs.firefox = {
@@ -61,6 +65,25 @@
     profiles = {
       default = {
         isDefault = true;
+        bookmarks = [
+          {
+            name = "Nix sites";
+            bookmarks = [
+              {
+                name = "homepage";
+                url = "https://nixos.org/";
+              }
+              {
+                name = "wiki";
+                url = "https://nixos.wiki/";
+              }
+              {
+                name = "Home Manager Options";
+                url = "https://nix-community.github.io/home-manager/options.html";
+              }
+            ];
+          }
+        ];
         settings = {
           # Do not save passwords to Firefox...
           "security.ask_for_password" = 0;
@@ -183,9 +206,9 @@
           # "html5.offmainthread" = true;
 
           # Remove those extra empty spaces in both sides
-          "browser.uiCustomization.state" = ''
-            {"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","urlbar-container","downloads-button","fxa-toolbar-menu-button"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["developer-button"],"dirtyAreaCache":["nav-bar","PersonalToolbar"],"currentVersion":17,"newElementCount":4}
-          '';
+          # "browser.uiCustomization.state" = ''
+          #   {"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","urlbar-container","downloads-button","fxa-toolbar-menu-button"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["developer-button"],"dirtyAreaCache":["nav-bar","PersonalToolbar"],"currentVersion":17,"newElementCount":4}
+          # '';
         };
       };
     };
@@ -194,6 +217,7 @@
       # local-cdn
       privacy-badger
       ublock-origin
+      darkreader
     ];
   };
 
@@ -219,9 +243,15 @@
     ];
     userSettings = {
       "files.autoSave" = "afterDelay";
-      "files.autoSaveDelay" =  1000;
+      "files.autoSaveDelay" = 1000;
       "files.trimTrailingWhitespace" = true;
       "editor.rulers" = [ 80 120 ];
+      "nix.serverPath" = "nil";
+      "nix.serverSettings" = {
+        "nil" = {
+          "formatting.command" = [ "nixpkgs-fmt" ];
+        };
+      };
     };
   };
 
@@ -231,12 +261,10 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     enableSyntaxHighlighting = true;
-    shellAliases = {
-
-    };
+    shellAliases = { };
     history = {
-        size = 10000;
-        path = "${config.xdg.dataHome}/zsh/history";
+      size = 10000;
+      path = "${config.xdg.dataHome}/zsh/history";
     };
     oh-my-zsh = {
       enable = true;
