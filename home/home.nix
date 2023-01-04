@@ -29,6 +29,7 @@
     pkgs.firefox
     pkgs.git
     pkgs.gh
+    pkgs.haskell-language-server
     pkgs.htop
     pkgs.nil
     pkgs.nixpkgs-fmt
