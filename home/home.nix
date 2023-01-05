@@ -1,8 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./programs/xmonad/default.nix
+  imports = builtins.concatMap import [
+    ./programs
+    ./services
   ];
 
   nixpkgs.config = {
@@ -32,6 +33,7 @@
     pkgs.haskell-language-server
     pkgs.htop
     pkgs.nil
+    pkgs.nitrogen
     pkgs.nixpkgs-fmt
     pkgs.nvtop
     pkgs.okular

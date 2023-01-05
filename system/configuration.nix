@@ -5,12 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      # Desktop Enviornment
-      ./desktops/xfce-xmonad.nix
-    ];
+  imports = builtins.concatMap import [
+    ./services
+  ] ++ [ ./hardware-configuration.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -38,12 +35,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.utf8";
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -62,7 +53,7 @@
     description = "unknown";
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -78,7 +69,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -126,7 +117,6 @@
   environment.shells = with pkgs; [ zsh ];
 
   # Nvidia
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
